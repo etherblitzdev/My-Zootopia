@@ -11,25 +11,28 @@ def generate_animal_info(animal_list):
     """Generates HTML list items with Name, Diet, Location, and Type for each animal"""
     output = ""
     for animal in animal_list:
-        name = animal.get("name")
-        diet = animal.get("characteristics", {}).get("diet")
+        name = animal.get("name", "")
+        diet = animal.get("characteristics", {}).get("diet", "")
         locations = animal.get("locations", [])
-        typ = animal.get("characteristics", {}).get("type")
+        typ = animal.get("characteristics", {}).get("type", "")
 
-        # Start list item
         output += '<li class="cards__item">\n'
 
+        # Title block
         if name:
-            output += f"Name: {name}<br/>\n"
-        if diet:
-            output += f"Diet: {diet}<br/>\n"
-        if isinstance(locations, list) and locations:
-            output += f"Location: {', '.join(locations)}<br/>\n"
-        if typ:
-            output += f"Type: {typ}<br/>\n"
+            output += f'  <div class="card__title">{name}</div>\n'
 
-        # Close list item
-        output += "</li>\n"
+        # Text block
+        output += '  <p class="card__text">\n'
+        if diet:
+            output += f'      <strong>Diet:</strong> {diet}<br/>\n'
+        if isinstance(locations, list) and locations:
+            output += f'      <strong>Location:</strong> {", ".join(locations)}<br/>\n'
+        if typ:
+            output += f'      <strong>Type:</strong> {typ}<br/>\n'
+        output += '  </p>\n'
+
+        output += '</li>\n'
 
     return output
 
