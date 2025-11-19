@@ -643,6 +643,9 @@ bitwarden-settings.json
 bw-export.json
 bw-export.csv
 
+# Build artifacts:
+echo "animals.html" >> .gitignore
+
 ########################################
 # End of combined .gitignore
 ########################################
