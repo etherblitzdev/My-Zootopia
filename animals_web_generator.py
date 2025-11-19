@@ -8,7 +8,7 @@ def load_data(file_path):
 
 # Step 2: Generate formatted animal info string
 def generate_animal_info(animal_list):
-    """Generates a string with Name, Diet, Location, and Type for each animal"""
+    """Generates HTML list items with Name, Diet, Location, and Type for each animal"""
     output = ""
     for animal in animal_list:
         name = animal.get("name")
@@ -16,15 +16,20 @@ def generate_animal_info(animal_list):
         locations = animal.get("locations", [])
         typ = animal.get("characteristics", {}).get("type")
 
+        # Start list item
+        output += '<li class="cards__item">\n'
+
         if name:
-            output += f"Name: {name}\n"
+            output += f"Name: {name}<br/>\n"
         if diet:
-            output += f"Diet: {diet}\n"
+            output += f"Diet: {diet}<br/>\n"
         if isinstance(locations, list) and locations:
-            output += f"Location: {locations[0]}\n"
+            output += f"Location: {', '.join(locations)}<br/>\n"
         if typ:
-            output += f"Type: {typ}\n"
-        output += "\n"  # Blank line between animals
+            output += f"Type: {typ}<br/>\n"
+
+        # Close list item
+        output += "</li>\n"
 
     return output
 
