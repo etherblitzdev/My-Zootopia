@@ -6,34 +6,39 @@ def load_data(file_path):
     with open(file_path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
-# Step 2: Generate formatted animal info string
+# Step 2a: Serialize a single animal
+def serialize_animal(animal_obj):
+    """Converts a single animal object into an HTML list item"""
+    name = animal_obj.get("name", "")
+    diet = animal_obj.get("characteristics", {}).get("diet", "")
+    locations = animal_obj.get("locations", [])
+    typ = animal_obj.get("characteristics", {}).get("type", "")
+
+    output = '<li class="cards__item">\n'
+
+    # Title block
+    if name:
+        output += f'  <div class="card__title">{name}</div>\n'
+
+    # Text block
+    output += '  <p class="card__text">\n'
+    if diet:
+        output += f'      <strong>Diet:</strong> {diet}<br/>\n'
+    if isinstance(locations, list) and locations:
+        output += f'      <strong>Location:</strong> {", ".join(locations)}<br/>\n'
+    if typ:
+        output += f'      <strong>Type:</strong> {typ}<br/>\n'
+    output += '  </p>\n'
+
+    output += '</li>\n'
+    return output
+
+# Step 2b: Generate formatted animal info string
 def generate_animal_info(animal_list):
-    """Generates HTML list items with Name, Diet, Location, and Type for each animal"""
+    """Generates HTML list items for all animals"""
     output = ""
     for animal in animal_list:
-        name = animal.get("name", "")
-        diet = animal.get("characteristics", {}).get("diet", "")
-        locations = animal.get("locations", [])
-        typ = animal.get("characteristics", {}).get("type", "")
-
-        output += '<li class="cards__item">\n'
-
-        # Title block
-        if name:
-            output += f'  <div class="card__title">{name}</div>\n'
-
-        # Text block
-        output += '  <p class="card__text">\n'
-        if diet:
-            output += f'      <strong>Diet:</strong> {diet}<br/>\n'
-        if isinstance(locations, list) and locations:
-            output += f'      <strong>Location:</strong> {", ".join(locations)}<br/>\n'
-        if typ:
-            output += f'      <strong>Type:</strong> {typ}<br/>\n'
-        output += '  </p>\n'
-
-        output += '</li>\n'
-
+        output += serialize_animal(animal)
     return output
 
 # Step 3: Inject animal info into HTML template
